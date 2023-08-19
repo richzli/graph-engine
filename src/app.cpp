@@ -2,7 +2,7 @@
 
 app::app() {
     init_opengl();
-    glfwMakeContextCurrent(nullptr);
+    active_scene = std::make_shared<scene>();
 }
 
 app::~app() {
@@ -10,8 +10,19 @@ app::~app() {
     glfwTerminate();
 }
 
-GLFWwindow* app::get_window() const {
+GLFWwindow * app::get_window() const {
 	return window;
+}
+
+std::shared_ptr<scene> app::get_active_scene() const {
+    return active_scene;
+}
+
+void app::render() {
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    active_scene->draw();
 }
 
 void app::init_opengl() {
@@ -39,7 +50,7 @@ void app::init_opengl() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 }
 
-void app::framebuffer_size_callback(GLFWwindow* window, const int width, const int height) {
+void app::framebuffer_size_callback(GLFWwindow * window, const int width, const int height) {
 	glViewport(0, 0, width, height);
 	_config.width = width;
 	_config.height = height;
