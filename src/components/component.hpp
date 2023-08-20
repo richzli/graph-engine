@@ -6,6 +6,7 @@
 class component {
 public:
     component(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color);
+    ~component();
 
     glm::vec3 get_position() const;
     glm::vec3 get_rotation() const;
@@ -30,5 +31,8 @@ protected:
     std::vector<unsigned int> indices;
 
     void create_buffers();
+    void delete_buffers();
     virtual void init_vertices() = 0;
+    virtual void calc_vertices() = 0;
+    void update_vertices();
 };

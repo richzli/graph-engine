@@ -1,50 +1,52 @@
-#include "rect.hpp"
+#include "line.hpp"
 
-rect::rect(
-    glm::vec3 position = ZERO3,
-    float length = 1.0f,
+line::line(
+    glm::vec2 src,
+    glm::vec2 dst,
     float width = 1.0f,
-    glm::vec3 rotation = ZERO3,
-    glm::vec3 scale = ONE3,
     glm::vec3 color = BLACK
-) : component(position, rotation, scale, color) {
-    this->length = length;
+) : component(ZERO3, ZERO3, ONE3, color) {
+    this->src = src;
+    this->dst = dst;
     this->width = width;
 
     init_vertices();
 }
 
-rect::rect(
-    glm::vec2 pos,
-    float length = 1.0f,
+line::line(
+    glm::vec2 src,
+    glm::vec2 dst,
     float width = 1.0f
-) : rect(glm::vec3(pos, 0.0f), length, width) { }
+) : line(src, dst, width, BLACK) { }
 
-float rect::get_length() const {
-    return length;
+glm::vec2 line::get_src() {
+    return src;
 }
 
-float rect::get_width() const {
+glm::vec2 line::get_dst() {
+    return dst;
+}
+
+float line::get_width() {
     return width;
 }
 
-void rect::set_length(float length) {
-    this->length = length;
+void line::set_src(glm::vec2 src) {
+    this->src = src;
     update_vertices();
 }
 
-void rect::set_width(float width) {
+void line::set_dst(glm::vec2 dst) {
+    this->dst = dst;
+    update_vertices();
+}
+
+void line::set_width(float width) {
     this->width = width;
     update_vertices();
 }
 
-void rect::set_square(float side) {
-    this->length = side;
-    this->width = side;
-    update_vertices();
-}
-
-void rect::init_vertices() {
+void line::init_vertices() {
     glBindVertexArray(VAO);
 
     calc_vertices();
@@ -64,11 +66,13 @@ void rect::init_vertices() {
     glBindVertexArray(0);
 }
 
-void rect::calc_vertices() {
+void line::calc_vertices() {
+    glm::vec2 v = glm::normalize(dst - src);
+    glm::vec2 perp(v.y, -v.x);
     vertices = {
-        {-width/2, -length/2},
-        { width/2, -length/2},
-        { width/2,  length/2},
-        {-width/2,  length/2},
+        src + perp * (width/2), 
+        src - perp * (width/2),
+        dst - perp * (width/2),
+        dst + perp * (width/2),
     };
 }
