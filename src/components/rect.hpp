@@ -16,6 +16,6 @@ public:
 protected:
     float length, width;
 
-    void init_vertices() override;
+    void init_buffers() override;
     void calc_vertices() override;
 };

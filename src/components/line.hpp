@@ -18,6 +18,6 @@ protected:
     glm::vec2 src, dst;
     float width;
 
-    virtual void init_vertices() override;
+    virtual void init_buffers() override;
     virtual void calc_vertices() override;
 };

@@ -1,24 +1,24 @@
 #include "rect.hpp"
 
 rect::rect(
-    glm::vec3 position = ZERO3,
-    float length = 1.0f,
-    float width = 1.0f,
-    glm::vec3 rotation = ZERO3,
-    glm::vec3 scale = ONE3,
-    glm::vec3 color = BLACK
+    glm::vec3 position,
+    float length,
+    float width,
+    glm::vec3 rotation,
+    glm::vec3 scale,
+    glm::vec3 color
 ) : component(position, rotation, scale, color) {
     this->length = length;
     this->width = width;
 
-    init_vertices();
+    init_buffers();
 }
 
 rect::rect(
     glm::vec2 pos,
-    float length = 1.0f,
-    float width = 1.0f
-) : rect(glm::vec3(pos, 0.0f), length, width) { }
+    float length,
+    float width
+) : rect(glm::vec3(pos, 0.0f), length, width, ZERO3, ONE3, BLACK) { }
 
 float rect::get_length() const {
     return length;
@@ -44,7 +44,7 @@ void rect::set_square(float side) {
     update_vertices();
 }
 
-void rect::init_vertices() {
+void rect::init_buffers() {
     glBindVertexArray(VAO);
 
     calc_vertices();

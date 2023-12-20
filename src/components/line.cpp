@@ -3,20 +3,20 @@
 line::line(
     glm::vec2 src,
     glm::vec2 dst,
-    float width = 1.0f,
-    glm::vec3 color = BLACK
+    float width,
+    glm::vec3 color
 ) : component(ZERO3, ZERO3, ONE3, color) {
     this->src = src;
     this->dst = dst;
     this->width = width;
 
-    init_vertices();
+    init_buffers();
 }
 
 line::line(
     glm::vec2 src,
     glm::vec2 dst,
-    float width = 1.0f
+    float width
 ) : line(src, dst, width, BLACK) { }
 
 glm::vec2 line::get_src() {
@@ -46,7 +46,7 @@ void line::set_width(float width) {
     update_vertices();
 }
 
-void line::init_vertices() {
+void line::init_buffers() {
     glBindVertexArray(VAO);
 
     calc_vertices();
@@ -67,7 +67,9 @@ void line::init_vertices() {
 }
 
 void line::calc_vertices() {
+    float dist = glm::length(dst - src);
     glm::vec2 v = glm::normalize(dst - src);
+    if (dist == 0) v = ZERO2;
     glm::vec2 perp(v.y, -v.x);
     vertices = {
         src + perp * (width/2), 

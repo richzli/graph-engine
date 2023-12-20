@@ -1,10 +1,10 @@
 #include "component.hpp"
 
 component::component(
-    glm::vec3 position = ZERO3,
-    glm::vec3 rotation = ZERO3,
-    glm::vec3 scale = ONE3,
-    glm::vec3 color = BLACK
+    glm::vec3 position,
+    glm::vec3 rotation,
+    glm::vec3 scale,
+    glm::vec3 color
 ) {
     this->position = position;
     this->rotation = rotation;
@@ -13,6 +13,8 @@ component::component(
 
     create_buffers();
 }
+
+component::component() : component(ZERO3, ZERO3, ONE3, BLACK) { }
 
 component::~component() {
     delete_buffers();
@@ -34,6 +36,18 @@ glm::vec3 component::get_color() const {
     return color;
 }
 
+std::vector<glm::vec2> component::get_vertices() const {
+    return vertices;
+}
+
+glm::mat4 component::get_model_matrix() const {
+    glm::mat4 model(1.0f);
+    model = glm::translate(model, position);
+    model *= glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
+    model = glm::scale(model, scale);
+    return model;
+}
+
 void component::set_position(glm::vec3 position) {
     this->position = position;
 }
@@ -53,12 +67,7 @@ void component::set_color(glm::vec3 color) {
 void component::draw(std::shared_ptr<shader> _shader) {
     _shader->use();
 
-    glm::mat4 model(1.0f);
-    model = glm::translate(model, position);
-    model *= glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
-    model = glm::scale(model, scale);
-
-    _shader->set_mat4("model", model);
+    _shader->set_mat4("model", get_model_matrix());
     _shader->set_vec3("color", color);
 
     glBindVertexArray(VAO);
@@ -75,12 +84,14 @@ void component::create_buffers() {
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
 
+    /*
     glBindVertexArray(VAO);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (void *) 0);
 
     glBindVertexArray(0);
+    */
 }
 
 void component::delete_buffers() {

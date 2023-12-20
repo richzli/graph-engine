@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../components/core.hpp"
-#include "../render/shader.hpp"
+#include "render/shader.hpp"
 
 class scene {
 public:

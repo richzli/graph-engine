@@ -1,7 +1,7 @@
 #pragma once
 
 #include "common.hpp"
-#include "scene/scene.hpp"
+#include "engine/scene.hpp"
 
 class app {
 public:

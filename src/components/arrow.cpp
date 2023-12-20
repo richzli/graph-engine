@@ -3,19 +3,19 @@
 arrow::arrow(
     glm::vec2 src,
     glm::vec2 dst,
-    float width = 1.0f,
-    glm::vec3 color = BLACK
+    float width,
+    glm::vec3 color
 ) : line(src, dst, width, color) {
-    init_vertices();
+    init_buffers();
 }
 
 arrow::arrow(
     glm::vec2 src,
     glm::vec2 dst,
-    float width = 1.0f
+    float width
 ) : arrow(src, dst, width, BLACK) { }
 
-void arrow::init_vertices() {
+void arrow::init_buffers() {
     glBindVertexArray(VAO);
 
     calc_vertices();
@@ -39,20 +39,22 @@ void arrow::init_vertices() {
 }
 
 void arrow::calc_vertices() {
-    glm::vec2 v = glm::normalize(dst - src);
-    glm::vec2 perp(v.y, -v.x);
     float dist = glm::length(dst - src);
+    glm::vec2 v = glm::normalize(dst - src);
+    if (dist == 0) v = ZERO2;
+    glm::vec2 perp(v.y, -v.x);
 
-    glm::vec2 end;
-    if (dist <= 4 * width) {
-        end = dst - (dst - src) / 2.0f;
+    glm::vec2 end = dst - glm::normalize(dst - src) * (2 * width);
+    glm::vec2 bgn;
+    if (dist <= 2 * width) {
+        bgn = end;
     } else {
-        end = dst - glm::normalize(dst - src) * (width * 2);
+        bgn = src;
     }
 
     vertices = {
-        src + perp * (width/2),
-        src - perp * (width/2),
+        bgn + perp * (width/2),
+        bgn - perp * (width/2),
         end - perp * (width/2),
         end - perp * width,
         dst,
