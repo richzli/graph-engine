@@ -1,5 +1,10 @@
 #include "app.hpp"
 
+app & app::get_instance() {
+    static app instance;
+    return instance;
+}
+
 app::app() {
     init_opengl();
     active_scene = std::make_shared<scene>();
@@ -10,12 +15,12 @@ app::~app() {
     glfwTerminate();
 }
 
-GLFWwindow * app::get_window() const {
-	return window;
+GLFWwindow * app::get_window() {
+	return get_instance().window;
 }
 
-std::shared_ptr<scene> app::get_active_scene() const {
-    return active_scene;
+std::shared_ptr<scene> app::get_active_scene() {
+    return get_instance().active_scene;
 }
 
 void app::render() {
@@ -47,11 +52,25 @@ void app::init_opengl() {
     glViewport(0, 0, _config.width, _config.height);
     glfwSwapInterval(1);
 
+    glfwSetWindowRefreshCallback(window, window_refresh_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    ::init_shaders();
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void app::framebuffer_size_callback(GLFWwindow * window, const int width, const int height) {
 	glViewport(0, 0, width, height);
 	_config.width = width;
 	_config.height = height;
+
+    get_instance().active_scene->set_scale(glm::vec2(width, height));
+}
+
+void app::window_refresh_callback(GLFWwindow * window) {
+    get_instance().render();
+    glfwSwapBuffers(window);
+    glFinish();
 }

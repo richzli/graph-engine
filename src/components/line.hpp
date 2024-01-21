@@ -1,23 +1,23 @@
 #pragma once
 
-#include "component.hpp"
+#include "edge_component.hpp"
 
-class line : public component {
+class line : public edge_component {
 public:
     line(glm::vec2 src, glm::vec2 dst, float width, glm::vec3 color);
     line(glm::vec2 src, glm::vec2 dst, float width);
 
-    glm::vec2 get_src();
-    glm::vec2 get_dst();
     float get_width();
 
-    void set_src(glm::vec2 src);
-    void set_dst(glm::vec2 dst);
     void set_width(float width);
+
+    static std::shared_ptr<shader> _shader;
 protected:
-    glm::vec2 src, dst;
     float width;
 
-    virtual void init_buffers() override;
-    virtual void calc_vertices() override;
+    void calc_vertices() override;
+    void calc_indices() override;
+
+    std::shared_ptr<shader> get_shader() override;
+    void bind_uniforms() override;
 };
