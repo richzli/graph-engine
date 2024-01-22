@@ -24,7 +24,6 @@ std::shared_ptr<scene> app::get_active_scene() {
 }
 
 void app::render() {
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     active_scene->draw();
@@ -56,6 +55,8 @@ void app::init_opengl() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     ::init_shaders();
+
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

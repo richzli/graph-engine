@@ -10,6 +10,8 @@ node_component::node_component(
     this->rotation = rotation;
     this->scale = scale;
     this->color = color;
+
+    update_model_matrix();
 }
 
 node_component::node_component() : node_component(ZERO3, ZERO3, ONE3, BLACK) { }
@@ -35,25 +37,31 @@ std::vector<glm::vec2> node_component::get_vertices() const {
 }
 
 glm::mat4 node_component::get_model_matrix() const {
-    glm::mat4 model(1.0f);
-    model = glm::translate(model, position);
-    model *= glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
-    model = glm::scale(model, scale);
     return model;
 }
 
 void node_component::set_position(glm::vec3 position) {
     this->position = position;
+    update_model_matrix();
 }
 
 void node_component::set_rotation(glm::vec3 rotation) {
     this->rotation = rotation;
+    update_model_matrix();
 }
 
 void node_component::set_scale(glm::vec3 scale) {
     this->scale = scale;
+    update_model_matrix();
 }
 
 void node_component::set_color(glm::vec3 color) {
     this->color = color;
+}
+
+void node_component::update_model_matrix() {
+    model = glm::mat4(1.0f);
+    model = glm::translate(model, position);
+    model *= glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
+    model = glm::scale(model, scale);
 }

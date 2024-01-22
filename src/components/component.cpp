@@ -8,13 +8,11 @@ component::~component() {
     this->delete_buffers();
 }
 
-void component::draw(glm::mat4 projection) {
-    this->update_vertices();
-    this->update_indices();
-
+void component::draw(const glm::mat4 & view, const glm::mat4 & projection) {
     this->get_shader()->use();
 
     this->bind_uniforms();
+    this->get_shader()->set_mat4("view", view);
     this->get_shader()->set_mat4("projection", projection);
 
     glBindVertexArray(VAO);

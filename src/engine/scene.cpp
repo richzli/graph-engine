@@ -18,9 +18,10 @@ void scene::add_component(std::shared_ptr<component> obj) {
 }
 
 void scene::draw() {
-    glm::mat4 projection = glm::ortho(origin.x, origin.x + scale.x, origin.y, origin.y + scale.y, -1.0f, 1.0f);
+    glm::mat4 view = glm::lookAt(glm::vec3(origin, 0.0f), glm::vec3(origin, -1.0f), UP);
+    glm::mat4 projection = glm::ortho(0.0f, scale.x, 0.0f, scale.y, -1.0f, 1.0f);
 
     for (std::shared_ptr<component> obj : objects) {
-        obj->draw(projection);
+        obj->draw(view, projection);
     }
 }

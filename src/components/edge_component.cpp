@@ -26,12 +26,15 @@ glm::vec3 edge_component::get_color() const {
 
 void edge_component::set_src(glm::vec2 src) {
     this->src = src;
+    this->update_vertices();
 }
 
 void edge_component::set_dst(glm::vec2 dst) {
     this->dst = dst;
+    this->update_vertices();
 }
 
 void edge_component::set_color(glm::vec3 color) {
     this->color = color;
+    this->update_vertices();
 }

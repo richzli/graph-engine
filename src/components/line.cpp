@@ -23,7 +23,7 @@ float line::get_width() {
 
 void line::set_width(float width) {
     this->width = width;
-    update_vertices();
+    this->update_vertices();
 }
 
 void line::calc_vertices() {

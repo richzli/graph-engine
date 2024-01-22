@@ -1,4 +1,7 @@
 #version 330 core
+
+in vec2 texCoordV;
+
 layout (location = 0) out vec4 frag_color;
 
 uniform vec2 center;
@@ -14,5 +17,5 @@ float circle(in vec2 _center, in float _radius, in vec2 xy)
 
 void main()
 {
-    frag_color = vec4(color, circle(center, radius, gl_FragCoord.xy));
+    frag_color = vec4(color, circle(center, radius, texCoordV));
 }

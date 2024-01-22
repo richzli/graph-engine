@@ -23,6 +23,7 @@ float circle::get_radius() const {
 
 void circle::set_radius(float radius) {
     this->radius = radius;
+    this->update_vertices();
 }
 
 void circle::calc_vertices() {
@@ -49,7 +50,7 @@ std::shared_ptr<shader> circle::get_shader() {
 
 void circle::bind_uniforms() {
     this->get_shader()->set_mat4("model", this->get_model_matrix());
-    this->get_shader()->set_vec2("center", glm::vec2(this->position));
+    this->get_shader()->set_vec2("center", ZERO2);
     this->get_shader()->set_float("radius", this->radius);
     this->get_shader()->set_vec3("color", this->color);
 }
