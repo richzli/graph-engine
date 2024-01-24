@@ -26,6 +26,14 @@ void circle::set_radius(float radius) {
     this->update_vertices();
 }
 
+bool circle::hit(glm::vec2 pt) {
+    return glm::length2(glm::vec2(position) - pt) <= radius * radius;
+}
+
+void circle::drag(glm::vec2 d) {
+    this->set_position(this->get_position() + glm::vec3(d, 0.0f));
+}
+
 void circle::calc_vertices() {
     vertices = {
         {-this->radius, -this->radius},

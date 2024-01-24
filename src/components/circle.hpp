@@ -11,6 +11,9 @@ public:
 
     void set_radius(float radius);
 
+    bool hit(glm::vec2 pt) override;
+    void drag(glm::vec2 d) override;
+
     static std::shared_ptr<shader> _shader;
 protected:
     float radius;

@@ -2,10 +2,12 @@
 
 #include <algorithm>
 #include <any>
+#include <chrono>
 #include <fstream>
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -20,6 +22,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/norm.hpp>
 
 #define ZERO2   glm::vec2( 0.0f,  0.0f)
 #define ZERO3   glm::vec3( 0.0f,  0.0f,  0.0f)
@@ -33,6 +36,7 @@
 #define BACK    glm::vec3( 0.0f,  0.0f, -1.0f)
 
 #define BLACK   glm::vec3(0.00f, 0.00f, 0.00f)
+#define RED     glm::vec3(1.00f, 0.00f, 0.00f)
 #define WHITE   glm::vec3(1.00f, 1.00f, 1.00f)
 
 struct config {

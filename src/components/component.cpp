@@ -1,11 +1,23 @@
 #include "component.hpp"
 
-component::component() {
+component::component(glm::vec3 color) {
     this->create_buffers();
+    
+    this->color = color;
 }
+
+component::component() : component(BLACK) { }
 
 component::~component() {
     this->delete_buffers();
+}
+
+glm::vec3 component::get_color() const {
+    return color;
+}
+
+void component::set_color(glm::vec3 color) {
+    this->color = color;
 }
 
 void component::draw(const glm::mat4 & view, const glm::mat4 & projection) {

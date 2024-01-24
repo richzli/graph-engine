@@ -5,11 +5,10 @@ node_component::node_component(
     glm::vec3 rotation,
     glm::vec3 scale,
     glm::vec3 color
-) : component() {
+) : component(color) {
     this->position = position;
     this->rotation = rotation;
     this->scale = scale;
-    this->color = color;
 
     update_model_matrix();
 }
@@ -26,10 +25,6 @@ glm::vec3 node_component::get_rotation() const {
 
 glm::vec3 node_component::get_scale() const {
     return scale;
-}
-
-glm::vec3 node_component::get_color() const {
-    return color;
 }
 
 std::vector<glm::vec2> node_component::get_vertices() const {
@@ -53,10 +48,6 @@ void node_component::set_rotation(glm::vec3 rotation) {
 void node_component::set_scale(glm::vec3 scale) {
     this->scale = scale;
     update_model_matrix();
-}
-
-void node_component::set_color(glm::vec3 color) {
-    this->color = color;
 }
 
 void node_component::update_model_matrix() {

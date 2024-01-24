@@ -26,6 +26,17 @@ void line::set_width(float width) {
     this->update_vertices();
 }
 
+bool line::hit(glm::vec2 pt) {
+    float d = glm::length2(dst - src);
+    float t = std::min(d, std::max(0.0f, glm::dot(pt - src, dst - src)));
+    return glm::length((pt - src) * d - (dst - src) * t) / d <= width;
+}
+
+void line::drag(glm::vec2 d) {
+    this->set_src(this->get_src() + d);
+    this->set_dst(this->get_dst() + d);
+}
+
 void line::calc_vertices() {
     float dist = glm::length(dst - src);
     glm::vec2 v = glm::normalize(dst - src);

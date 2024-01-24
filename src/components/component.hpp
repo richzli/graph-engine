@@ -5,8 +5,15 @@
 
 class component {
 public:
+    component(glm::vec3 color);
     component();
     ~component();
+
+    glm::vec3 get_color() const;
+    void set_color(glm::vec3 color);
+
+    virtual bool hit(glm::vec2 pt) = 0;
+    virtual void drag(glm::vec2 d) = 0;
 
     void draw(const glm::mat4 & view, const glm::mat4 & projection);
 protected:
@@ -14,6 +21,7 @@ protected:
     /* vertices in counter-clockwise order */
     std::vector<glm::vec2> vertices;
     std::vector<unsigned int> indices;
+    glm::vec3 color;
 
     void create_buffers();
     void init_buffers();
