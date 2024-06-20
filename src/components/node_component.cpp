@@ -15,6 +15,14 @@ node_component::node_component(
 
 node_component::node_component() : node_component(ZERO3, ZERO3, ONE3, BLACK) { }
 
+node_component::node_component(const node_component & nc) : component(nc) {
+    this->position = nc.position;
+    this->rotation = nc.rotation;
+    this->scale = nc.scale;
+
+    this->model = nc.model;
+}
+
 glm::vec3 node_component::get_position() const {
     return position;
 }

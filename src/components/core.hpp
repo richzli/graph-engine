@@ -9,3 +9,4 @@
 #include "circle.hpp"
 
 void init_shaders();
+void init_component_defaults();

@@ -11,6 +11,11 @@ edge_component::edge_component(
 
 edge_component::edge_component() : edge_component(ZERO2, ZERO2, BLACK) { }
 
+edge_component::edge_component(const edge_component & ec) : component(ec) {
+    this->src = ec.src;
+    this->dst = ec.dst;
+}
+
 glm::vec2 edge_component::get_src() const {
     return src;
 }

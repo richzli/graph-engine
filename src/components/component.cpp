@@ -8,6 +8,14 @@ component::component(glm::vec3 color) {
 
 component::component() : component(BLACK) { }
 
+component::component(const component & c) {
+    this->create_buffers();
+
+    this->color = c.color;
+    this->vertices = c.vertices;
+    this->indices = c.indices;
+}
+
 component::~component() {
     this->delete_buffers();
 }

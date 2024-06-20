@@ -21,8 +21,8 @@ GLFWwindow * app::get_window() {
 	return get_instance().window;
 }
 
-std::shared_ptr<scene> app::get_active_scene() {
-    return get_instance().active_scene;
+scene & app::get_active_scene() {
+    return *(get_instance().active_scene);
 }
 
 void app::render() {
@@ -59,6 +59,7 @@ void app::init_opengl() {
     glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     ::init_shaders();
+    ::init_component_defaults();
 
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 

@@ -1,13 +1,17 @@
 #pragma once
 
 #include "../common.hpp"
+#include "../settings.hpp"
 #include "../engine/render/shader.hpp"
 
 class component {
 public:
     component(glm::vec3 color);
     component();
+    component(const component & c);
     ~component();
+
+    virtual std::shared_ptr<component> copy() = 0;
 
     glm::vec3 get_color() const;
     void set_color(glm::vec3 color);

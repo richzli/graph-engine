@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.hpp"
+#include "settings.hpp"
 #include "engine/scene.hpp"
 
 class app {
@@ -11,7 +12,7 @@ public:
     void operator=(app const &) = delete;
 
     static GLFWwindow * get_window();
-    static std::shared_ptr<scene> get_active_scene();
+    static scene & get_active_scene();
 
     void render();
 private:

@@ -17,6 +17,16 @@ circle::circle(
     float radius
 ) : circle(glm::vec3(pos, 0.0f), radius, ZERO3, ONE3, BLACK) { }
 
+circle::circle(const circle & c) : node_component(c) {
+    this->radius = c.radius;
+
+    init_buffers();
+}
+
+std::shared_ptr<component> circle::copy() {
+    return std::make_shared<circle>(*this);
+}
+
 float circle::get_radius() const {
     return radius;
 }

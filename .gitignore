@@ -1,8 +1,9 @@
 .vscode/*
 docs/*
 
-src/glad.c
 app
 app.exe
+
+test.cpp
 
 *.o

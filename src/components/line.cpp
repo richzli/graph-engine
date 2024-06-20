@@ -17,6 +17,16 @@ line::line(
     float width
 ) : line(src, dst, width, BLACK) { }
 
+line::line(const line & l) : edge_component(l) {
+    this->width = l.width;
+
+    init_buffers();
+}
+
+std::shared_ptr<component> line::copy() {
+    return std::make_shared<line>(*this);
+}
+
 float line::get_width() {
     return width;
 }
@@ -33,8 +43,8 @@ bool line::hit(glm::vec2 pt) {
 }
 
 void line::drag(glm::vec2 d) {
-    this->set_src(this->get_src() + d);
-    this->set_dst(this->get_dst() + d);
+    // this->set_src(this->get_src() + d);
+    // this->set_dst(this->get_dst() + d);
 }
 
 void line::calc_vertices() {

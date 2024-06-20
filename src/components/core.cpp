@@ -6,3 +6,12 @@ void init_shaders() {
     circle::_shader = std::make_shared<shader>("basic", "circle");
     line::_shader = std::make_shared<shader>("basic", "basic");
 }
+
+// same deal with these
+void init_component_defaults() {
+    _component_defaults = {
+        std::make_shared<circle>(glm::vec2(0, 0), 50),
+        std::make_shared<arrow>(glm::vec2(0, 0), glm::vec2(0, 0), 10.0f),
+        std::make_shared<line>(glm::vec2(0, 0), glm::vec2(0, 0), 10.0f)
+    };
+}

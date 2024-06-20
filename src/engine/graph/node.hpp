@@ -1,17 +1,28 @@
 #pragma once
 
 #include "../../common.hpp"
-
-#include "interactable.hpp"
+#include "../../components/node_component.hpp"
+#include "data.hpp"
 
 class edge;
 
-class node : public interactable {
+class node : data_object {
 public:
-    node(glm::vec2 position, std::unique_ptr<component> obj);
+    node();
+    node(int index, std::shared_ptr<data> value);
+    ~node();
 
-    void add_in_edge(std::shared_ptr<edge> _edge);
-    void add_out_edge(std::shared_ptr<edge> _edge);
+    std::shared_ptr<node_component> get_component() const;
+    int get_index() const;
+
+    void set_component(std::shared_ptr<node_component> component);
+
+    edge & operator[](int i);
+    bool add_edge(std::shared_ptr<edge> e);
+    bool remove_edge(std::shared_ptr<edge> e);
 protected:
-    std::set<std::shared_ptr<edge>> incut, outcut;
+    int index;
+
+    std::map<int, std::shared_ptr<edge>> edges;
+    std::shared_ptr<node_component> component;
 };

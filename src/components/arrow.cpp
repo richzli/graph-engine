@@ -15,6 +15,14 @@ arrow::arrow(
     float width
 ) : arrow(src, dst, width, BLACK) { }
 
+arrow::arrow(const arrow & a) : line(a) {
+    init_buffers();
+}
+
+std::shared_ptr<component> arrow::copy() {
+    return std::make_shared<arrow>(*this);
+}
+
 void arrow::calc_vertices() {
     float dist = glm::length(dst - src);
     glm::vec2 v = glm::normalize(dst - src);

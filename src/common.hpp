@@ -6,6 +6,7 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <optional>
 #include <set>
@@ -38,10 +39,3 @@
 #define BLACK   glm::vec3(0.00f, 0.00f, 0.00f)
 #define RED     glm::vec3(1.00f, 0.00f, 0.00f)
 #define WHITE   glm::vec3(1.00f, 1.00f, 1.00f)
-
-struct config {
-    int width = 1600;
-    int height = 900;
-};
-
-extern config _config;
