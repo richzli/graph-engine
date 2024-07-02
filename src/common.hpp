@@ -25,6 +25,10 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/norm.hpp>
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 #define ZERO2   glm::vec2( 0.0f,  0.0f)
 #define ZERO3   glm::vec3( 0.0f,  0.0f,  0.0f)
 #define ONE3    glm::vec3( 1.0f,  1.0f,  1.0f)

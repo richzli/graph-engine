@@ -27,6 +27,7 @@ private:
     std::optional<std::chrono::time_point<std::chrono::steady_clock>> mouse_button_left_down;
 
     void init_opengl();
+    void init_imgui();
     static glm::vec2 get_mouse_pos();
 
     static void framebuffer_size_callback(GLFWwindow * window, const int width, const int height);
