@@ -4,7 +4,7 @@ line::line(
     glm::vec2 src,
     glm::vec2 dst,
     float width,
-    glm::vec3 color
+    glm::vec4 color
 ) : edge_component(src, dst, color) {
     this->width = width;
 
@@ -79,5 +79,5 @@ std::shared_ptr<shader> line::get_shader() {
 
 void line::bind_uniforms() {
     this->get_shader()->set_mat4("model", glm::mat4(1.0f));
-    this->get_shader()->set_vec3("color", this->color);
+    this->get_shader()->set_vec4("color", this->color);
 }

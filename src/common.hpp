@@ -41,6 +41,6 @@
 #define FORWARD glm::vec3( 0.0f,  0.0f,  1.0f)
 #define BACK    glm::vec3( 0.0f,  0.0f, -1.0f)
 
-#define BLACK   glm::vec3(0.00f, 0.00f, 0.00f)
-#define RED     glm::vec3(1.00f, 0.00f, 0.00f)
-#define WHITE   glm::vec3(1.00f, 1.00f, 1.00f)
+#define BLACK   glm::vec4(0.00f, 0.00f, 0.00f, 1.00f)
+#define RED     glm::vec4(1.00f, 0.00f, 0.00f, 1.00f)
+#define WHITE   glm::vec4(1.00f, 1.00f, 1.00f, 1.00f)

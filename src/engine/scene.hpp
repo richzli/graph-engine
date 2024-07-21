@@ -19,11 +19,13 @@ public:
     void select(glm::vec2 pt);
     void deselect();
     void drag(glm::vec2 d);
+    void zoom(bool in);
 
     void draw();
 private:
     glm::vec2 origin;
     glm::vec2 size;
+    float distance;
 
     glm::vec2 pt_to_world(glm::vec2 pt);
     glm::vec2 v_to_world(glm::vec2 v);

@@ -70,6 +70,7 @@ void app::init_opengl() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetScrollCallback(window, scroll_callback);
 
     ::init_shaders();
     ::init_component_defaults();
@@ -141,5 +142,18 @@ void app::mouse_button_callback(GLFWwindow * window, int button, int action, int
     } else {
         get_instance().mouse_button_left_down = std::nullopt;
         get_instance().active_scene->deselect();
+    }
+}
+
+void app::scroll_callback(GLFWwindow * window, double xoffset, double yoffset) {
+    ImGuiIO & io = ImGui::GetIO();
+    io.AddMouseWheelEvent(xoffset, yoffset);
+
+    if (!io.WantCaptureMouse) {
+        if (yoffset > 0) {
+            get_instance().active_scene->zoom(true);
+        } else if (yoffset < 0) {
+            get_instance().active_scene->zoom(false);
+        }
     }
 }

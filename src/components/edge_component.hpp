@@ -5,7 +5,7 @@
 class edge_component : public component {
 public:
     edge_component();
-    edge_component(glm::vec2 src, glm::vec2 dst, glm::vec3 color);
+    edge_component(glm::vec2 src, glm::vec2 dst, glm::vec4 color);
     edge_component(const edge_component & ec);
 
     glm::vec2 get_src() const;

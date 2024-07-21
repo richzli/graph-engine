@@ -4,7 +4,7 @@ arrow::arrow(
     glm::vec2 src,
     glm::vec2 dst,
     float width,
-    glm::vec3 color
+    glm::vec4 color
 ) : line(src, dst, width, color) { 
     init_buffers();
 }

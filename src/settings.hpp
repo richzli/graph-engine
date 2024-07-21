@@ -5,6 +5,7 @@
 struct config {
     int width = 1600;
     int height = 900;
+    float zoom_factor = 1.1f;
 };
 
 extern config _config;

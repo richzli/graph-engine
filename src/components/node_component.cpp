@@ -4,7 +4,7 @@ node_component::node_component(
     glm::vec3 position,
     glm::vec3 rotation,
     glm::vec3 scale,
-    glm::vec3 color
+    glm::vec4 color
 ) : component(color) {
     this->position = position;
     this->rotation = rotation;

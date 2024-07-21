@@ -6,7 +6,7 @@
 
 class component {
 public:
-    component(glm::vec3 color);
+    component(glm::vec4 color);
     component();
     component(const component & c);
     ~component();
@@ -15,8 +15,8 @@ public:
 
     virtual glm::vec2 get_center() const = 0;
 
-    glm::vec3 get_color() const;
-    void set_color(glm::vec3 color);
+    glm::vec4 get_color() const;
+    void set_color(glm::vec4 color);
 
     virtual bool hit(glm::vec2 pt) = 0;
     virtual void drag(glm::vec2 d) = 0;
@@ -27,7 +27,7 @@ protected:
     /* vertices in counter-clockwise order */
     std::vector<glm::vec2> vertices;
     std::vector<unsigned int> indices;
-    glm::vec3 color;
+    glm::vec4 color;
 
     void create_buffers();
     void init_buffers();

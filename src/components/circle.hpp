@@ -4,7 +4,7 @@
 
 class circle : public node_component {
 public:
-    circle(glm::vec3 position, float radius, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color);
+    circle(glm::vec3 position, float radius, glm::vec3 rotation, glm::vec3 scale, glm::vec4 color);
     circle(glm::vec2 pos, float radius);
     circle(const circle & c);
 

@@ -7,7 +7,7 @@ component_defaults _component_defaults;
 app * _app;
 
 int main(int argc, char * argv[]) {
-    _config = { 1600, 900 };
+    _config = { 1600, 900, 1.1f };
     _app = &(app::get_instance());
 
     for (int i = 0; i < 5; ++i) {

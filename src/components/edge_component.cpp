@@ -3,7 +3,7 @@
 edge_component::edge_component(
     glm::vec2 src,
     glm::vec2 dst,
-    glm::vec3 color
+    glm::vec4 color
 ) : component(color) {
     this->src = src;
     this->dst = dst;

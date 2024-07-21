@@ -5,7 +5,7 @@ circle::circle(
     float radius,
     glm::vec3 rotation,
     glm::vec3 scale,
-    glm::vec3 color
+    glm::vec4 color
 ) : node_component(position, rotation, scale, color) {
     this->radius = radius;
 
@@ -74,5 +74,5 @@ void circle::bind_uniforms() {
     this->get_shader()->set_mat4("model", this->get_model_matrix());
     this->get_shader()->set_vec2("center", ZERO2);
     this->get_shader()->set_float("radius", this->radius);
-    this->get_shader()->set_vec3("color", this->color);
+    this->get_shader()->set_vec4("color", this->color);
 }

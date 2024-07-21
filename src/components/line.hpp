@@ -5,7 +5,7 @@
 class line : public edge_component {
 public:
     line(glm::vec2 src, glm::vec2 dst, float width);
-    line(glm::vec2 src, glm::vec2 dst, float width, glm::vec3 color);
+    line(glm::vec2 src, glm::vec2 dst, float width, glm::vec4 color);
     line(const line & l);
 
     std::shared_ptr<component> copy() override;

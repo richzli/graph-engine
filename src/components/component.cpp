@@ -1,6 +1,6 @@
 #include "component.hpp"
 
-component::component(glm::vec3 color) {
+component::component(glm::vec4 color) {
     this->create_buffers();
     
     this->color = color;
@@ -20,11 +20,11 @@ component::~component() {
     this->delete_buffers();
 }
 
-glm::vec3 component::get_color() const {
+glm::vec4 component::get_color() const {
     return color;
 }
 
-void component::set_color(glm::vec3 color) {
+void component::set_color(glm::vec4 color) {
     this->color = color;
 }
 

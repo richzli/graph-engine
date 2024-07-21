@@ -4,7 +4,7 @@
 
 class arrow : public line {
 public:
-    arrow(glm::vec2 src, glm::vec2 dst, float width, glm::vec3 color);
+    arrow(glm::vec2 src, glm::vec2 dst, float width, glm::vec4 color);
     arrow(glm::vec2 src, glm::vec2 dst, float width);
     arrow(const arrow & a);
 
