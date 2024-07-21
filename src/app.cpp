@@ -10,7 +10,7 @@ app::app() {
     init_imgui();
 
     active_scene = std::make_shared<scene>();
-    mouse_button_left_down = std::nullopt;
+    lmb_down_time = std::nullopt;
 }
 
 app::~app() {
@@ -118,8 +118,10 @@ void app::window_refresh_callback(GLFWwindow * window) {
 void app::cursor_position_callback(GLFWwindow * window, double xpos, double ypos) {
     glm::vec2 current_cursor_pos = glm::vec2(xpos, ypos);
 
-    if (get_instance().mouse_button_left_down != std::nullopt) {
+    if (get_instance().lmb_down_time != std::nullopt) {
         get_instance().active_scene->drag(current_cursor_pos - get_instance().last_cursor_pos);
+    } else if (get_instance().rmb_down_time != std::nullopt) {
+        get_instance().active_scene->move(current_cursor_pos - get_instance().last_cursor_pos);
     }
 
     get_instance().last_cursor_pos = current_cursor_pos;
@@ -132,16 +134,30 @@ void app::mouse_button_callback(GLFWwindow * window, int button, int action, int
     if (!io.WantCaptureMouse) {
         if (button == GLFW_MOUSE_BUTTON_LEFT) {
             if (action == GLFW_PRESS) {
-                get_instance().mouse_button_left_down = std::chrono::steady_clock::now();
+                get_instance().lmb_down_time = std::chrono::steady_clock::now();
+                get_instance().lmb_down_pos = get_instance().get_mouse_pos();
                 get_instance().active_scene->select(get_mouse_pos());
             } else if (action == GLFW_RELEASE) {
-                get_instance().mouse_button_left_down = std::nullopt;
+                get_instance().lmb_down_time = std::nullopt;
+                get_instance().lmb_down_pos = std::nullopt;
                 get_instance().active_scene->deselect();
+            }
+        } else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+            if (action == GLFW_PRESS) {
+                get_instance().rmb_down_time = std::chrono::steady_clock::now();
+                get_instance().rmb_down_pos = get_instance().get_mouse_pos();
+            } else if (action == GLFW_RELEASE) {
+                get_instance().rmb_down_time = std::nullopt;
+                get_instance().rmb_down_pos = std::nullopt;
             }
         }
     } else {
-        get_instance().mouse_button_left_down = std::nullopt;
+        get_instance().lmb_down_time = std::nullopt;
+        get_instance().lmb_down_pos = std::nullopt;
         get_instance().active_scene->deselect();
+
+        get_instance().rmb_down_time = std::nullopt;
+        get_instance().rmb_down_pos = std::nullopt;
     }
 }
 

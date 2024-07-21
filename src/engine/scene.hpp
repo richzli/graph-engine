@@ -16,10 +16,12 @@ public:
     void set_origin(glm::vec2 origin);
     void set_size(glm::vec2 size);
 
+    void move(glm::vec2 d);
+    void zoom(bool in);
+
     void select(glm::vec2 pt);
     void deselect();
     void drag(glm::vec2 d);
-    void zoom(bool in);
 
     void draw();
 private:

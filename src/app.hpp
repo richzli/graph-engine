@@ -24,7 +24,10 @@ private:
     std::shared_ptr<scene> active_scene;
 
     glm::vec2 last_cursor_pos;
-    std::optional<std::chrono::time_point<std::chrono::steady_clock>> mouse_button_left_down;
+    std::optional<std::chrono::time_point<std::chrono::steady_clock>> lmb_down_time;
+    std::optional<glm::vec2> lmb_down_pos;
+    std::optional<std::chrono::time_point<std::chrono::steady_clock>> rmb_down_time;
+    std::optional<glm::vec2> rmb_down_pos;
 
     void init_opengl();
     void init_imgui();

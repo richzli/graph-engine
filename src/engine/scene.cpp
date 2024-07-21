@@ -59,14 +59,21 @@ void scene::deselect() {
 }
 
 /*
+ * Moves the viewable area.
+ * 
+ * @param d The move distance in screen coordinates.
+ */
+void scene::move(glm::vec2 d) {
+    this->set_origin(this->get_origin() - v_to_world(d));
+}
+
+/*
  * Executes a drag event.
  *
  * @param d The drag distance in screen coordinates.
  */
 void scene::drag(glm::vec2 d) {
-    if (selected_object == nullptr) {
-        this->set_origin(this->get_origin() - v_to_world(d));
-    } else {
+    if (selected_object != nullptr) {
         selected_object->get_component()->drag(v_to_world(d));
     }
 }
