@@ -2,11 +2,12 @@
 #include "edge.hpp"
 
 edge::edge(
+    int id,
     std::shared_ptr<node> u,
     std::shared_ptr<node> v,
     bool directed,
     std::shared_ptr<data> value
-) : data_object(value) {
+) : item(value) {
     this->u = u;
     this->v = v;
     this->directed = directed;
@@ -23,22 +24,28 @@ edge::edge(
 }
 
 edge::edge(
+    int id,
     std::shared_ptr<node> u,
     std::shared_ptr<node> v,
     bool directed
-) : edge(u, v, directed, std::make_shared<data>()) { }
+) : edge(id, u, v, directed, std::make_shared<data>()) { }
 
 edge::edge(
+    int id,
     std::shared_ptr<node> u,
     std::shared_ptr<node> v
-) : edge(u, v, false) { }
+) : edge(id, u, v, false) { }
 
 edge::~edge() {
 
 }
 
-std::shared_ptr<edge_component> edge::get_component() {
+std::shared_ptr<component> edge::get_component() const {
     return this->component;
+}
+
+int edge::get_id() const {
+    return this->id;
 }
 
 std::shared_ptr<node> edge::get_u() const {
@@ -58,6 +65,6 @@ void edge::set_v(std::shared_ptr<node> v) {
 }
 
 void edge::update_endpoints() {
-    this->component->set_src(this->get_u()->get_component()->get_position());
-    this->component->set_dst(this->get_v()->get_component()->get_position());
+    this->component->set_src(std::static_pointer_cast<node_component>(this->get_u()->get_component())->get_position());
+    this->component->set_dst(std::static_pointer_cast<node_component>(this->get_v()->get_component())->get_position());
 }

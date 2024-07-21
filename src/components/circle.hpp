@@ -10,6 +10,8 @@ public:
 
     std::shared_ptr<component> copy() override;
 
+    glm::vec2 get_center() const override;
+
     float get_radius() const;
 
     void set_radius(float radius);

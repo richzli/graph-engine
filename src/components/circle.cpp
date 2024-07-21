@@ -27,6 +27,10 @@ std::shared_ptr<component> circle::copy() {
     return std::make_shared<circle>(*this);
 }
 
+glm::vec2 circle::get_center() const {
+    return this->get_position();
+}
+
 float circle::get_radius() const {
     return radius;
 }

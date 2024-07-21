@@ -27,6 +27,10 @@ std::shared_ptr<component> line::copy() {
     return std::make_shared<line>(*this);
 }
 
+glm::vec2 line::get_center() const {
+    return (src + dst) / 2.0f;
+}
+
 float line::get_width() {
     return width;
 }

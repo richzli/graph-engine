@@ -28,6 +28,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+#include "imgui/imgui_stdlib.h"
 
 #define ZERO2   glm::vec2( 0.0f,  0.0f)
 #define ZERO3   glm::vec3( 0.0f,  0.0f,  0.0f)

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../common.hpp"
 #include "../components/core.hpp"
 #include "graph/graph.hpp"
 #include "render/shader.hpp"
@@ -24,11 +25,16 @@ private:
     glm::vec2 origin;
     glm::vec2 size;
 
-    glm::vec2 convert_pt(glm::vec2 pt);
-    glm::vec2 convert_d(glm::vec2 d);
+    glm::vec2 pt_to_world(glm::vec2 pt);
+    glm::vec2 v_to_world(glm::vec2 v);
+
+    glm::vec2 pt_to_screen(glm::vec2 pt);
+    glm::vec2 v_to_screen(glm::vec2 v);
 
     std::shared_ptr<graph> g;
-    std::shared_ptr<component> selected_object;
+    std::shared_ptr<item> selected_object;
 
     void update_edges();
+
+    void draw_text(std::string label, std::string text, glm::vec2 pos, int size);
 };

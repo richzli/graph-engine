@@ -36,7 +36,6 @@ void app::render() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    ImGui::ShowDemoWindow();
 
     active_scene->draw();
 
@@ -52,6 +51,7 @@ void app::init_opengl() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     window = glfwCreateWindow(_config.width, _config.height, "graph engine", nullptr, nullptr);
     if (window == nullptr) {
@@ -138,5 +138,8 @@ void app::mouse_button_callback(GLFWwindow * window, int button, int action, int
                 get_instance().active_scene->deselect();
             }
         }
+    } else {
+        get_instance().mouse_button_left_down = std::nullopt;
+        get_instance().active_scene->deselect();
     }
 }

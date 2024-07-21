@@ -2,18 +2,18 @@
 
 #include "../../common.hpp"
 #include "../../components/node_component.hpp"
-#include "data.hpp"
+#include "item.hpp"
 
 class edge;
 
-class node : data_object {
+class node : public item {
 public:
     node();
-    node(int index, std::shared_ptr<data> value);
+    node(int id, std::shared_ptr<data> value);
     ~node();
 
-    std::shared_ptr<node_component> get_component() const;
-    int get_index() const;
+    std::shared_ptr<component> get_component() const override;
+    int get_id() const override;
 
     void set_component(std::shared_ptr<node_component> component);
 
@@ -21,7 +21,7 @@ public:
     bool add_edge(std::shared_ptr<edge> e);
     bool remove_edge(std::shared_ptr<edge> e);
 protected:
-    int index;
+    int id;
 
     std::map<int, std::shared_ptr<edge>> edges;
     std::shared_ptr<node_component> component;

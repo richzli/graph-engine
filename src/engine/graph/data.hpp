@@ -7,21 +7,10 @@ public:
     data();
     data(int value);
 
-    template<typename T> T get(std::string key);
+    template<typename T> T get(std::string key) const;
     template<typename T> bool set(std::string key, T value);
 
-    std::string label();
+    std::string label() const;
 protected:
     int value;
-};
-
-class data_object {
-public:
-    data_object();
-    data_object(std::shared_ptr<data> value);
-
-    template<typename T> T get(std::string key);
-    template<typename T> bool set(std::string key, T value);
-protected:
-    std::shared_ptr<data> value;
 };

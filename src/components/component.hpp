@@ -13,6 +13,8 @@ public:
 
     virtual std::shared_ptr<component> copy() = 0;
 
+    virtual glm::vec2 get_center() const = 0;
+
     glm::vec3 get_color() const;
     void set_color(glm::vec3 color);
 
