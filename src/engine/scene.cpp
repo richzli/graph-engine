@@ -33,6 +33,7 @@ void scene::select(glm::vec2 pt) {
         if (obj->hit(pt_to_world(pt))) {
             obj->set_color(RED);
             selected_object = v;
+            selected_object->select();
             return;
         }
     }
@@ -41,6 +42,7 @@ void scene::select(glm::vec2 pt) {
         if (obj->hit(pt_to_world(pt))) {
             obj->set_color(RED);
             selected_object = e;
+            selected_object->select();
             return;
         }
     }
@@ -80,19 +82,23 @@ void scene::draw() {
     for (const auto & [i, e] : this->g->get_edges()) {
         if (e != selected_object) {
             e->get_component()->draw(view, projection);
-            draw_text("edge" + std::to_string(i), e->label(), pt_to_screen(e->get_component()->get_center()), 0);
+            draw_text("edge" + std::to_string(e->get_id()), e->label(), e->get_component()->get_center(), 0);
         }
     }
+    if (std::dynamic_pointer_cast<edge>(selected_object) != nullptr) {
+        selected_object->get_component()->draw(view, projection);
+        draw_text("edge" + std::to_string(selected_object->get_id()), selected_object->label(), selected_object->get_component()->get_center(), 0);
+    }
+
     for (const auto & [i, v] : this->g->get_nodes()) {
         if (v != selected_object) {
             v->get_component()->draw(view, projection);
-            draw_text("node" + std::to_string(i), v->label(), pt_to_screen(v->get_component()->get_center()), 0);
+            draw_text("node" + std::to_string(v->get_id()), v->label(), v->get_component()->get_center(), 0);
         }
     }
-
-    if (selected_object != nullptr) {
+    if (std::dynamic_pointer_cast<node>(selected_object) != nullptr) {
         selected_object->get_component()->draw(view, projection);
-        draw_text("s" + std::to_string(selected_object->get_id()), selected_object->label(), pt_to_screen(selected_object->get_component()->get_center()), 0);
+        draw_text("node" + std::to_string(selected_object->get_id()), selected_object->label(), selected_object->get_component()->get_center(), 0);
     }
 }
 
@@ -143,7 +149,7 @@ void scene::draw_text(std::string label, std::string text, glm::vec2 pos, int si
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    ImGui::SetNextWindowPos(pos - (glm::vec2) ImGui::CalcTextSize(text.c_str()) / 2.0f);
+    ImGui::SetNextWindowPos(pt_to_screen(pos) - (glm::vec2) ImGui::CalcTextSize(text.c_str()) / 2.0f);
 
     ImGui::Begin(label.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoSavedSettings|ImGuiWindowFlags_NoInputs);
 

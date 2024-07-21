@@ -3,9 +3,8 @@
 graph::graph(int n, bool directed) {
     this->node_cnt = n;
     for (int i = 0; i < n; ++i) {
-        nodes[i] = std::make_shared<node>();
+        add_node();
     }
-
     this->edge_cnt = 0;
 
     this->directed = directed;
@@ -41,6 +40,6 @@ int graph::add_edge(int u, int v) {
 }
 
 int graph::add_node() {
-    this->nodes[node_cnt] = std::make_shared<node>();
+    this->nodes[node_cnt] = std::make_shared<node>(node_cnt);
     return node_cnt++;
 }

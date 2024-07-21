@@ -2,15 +2,19 @@
 #include "edge.hpp"
 
 node::node(
-    int index,
+    int id,
     std::shared_ptr<data> value
 ) : item(value) {
-    this->id = index;
+    this->id = id;
 
     this->component = std::static_pointer_cast<node_component>(
         _component_defaults._node->copy()
     );
 }
+
+node::node(
+    int id
+) : node(id, std::make_shared<data>()) { }
 
 node::node() : node(0, std::make_shared<data>()) { }
 

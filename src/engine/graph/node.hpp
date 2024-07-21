@@ -9,6 +9,7 @@ class edge;
 class node : public item {
 public:
     node();
+    node(int id);
     node(int id, std::shared_ptr<data> value);
     ~node();
 

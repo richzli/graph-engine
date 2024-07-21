@@ -8,6 +8,8 @@ edge::edge(
     bool directed,
     std::shared_ptr<data> value
 ) : item(value) {
+    this->id = id;
+    
     this->u = u;
     this->v = v;
     this->directed = directed;
