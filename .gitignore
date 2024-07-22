@@ -1,9 +1,10 @@
 .vscode/*
 docs/*
 
+*.o
+
 app
 app.exe
+imgui.ini
 
 test.cpp
-
-*.o
