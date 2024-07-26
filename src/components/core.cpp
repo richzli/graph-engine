@@ -3,8 +3,8 @@
 // shader initialization has to happen after glfw initialization
 // so can't initialize these directly in the class source files; this is just a hack
 void init_shaders() {
-    circle::_shader = std::make_shared<shader>("basic", "circle");
-    line::_shader = std::make_shared<shader>("basic", "basic");
+    circle::_shader = std::make_shared<shader>("node", "circle");
+    line::_shader = std::make_shared<shader>("edge", "basic");
 }
 
 // same deal with these

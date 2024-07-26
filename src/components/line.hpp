@@ -5,12 +5,12 @@
 class line : public edge_component {
 public:
     line(glm::vec2 src, glm::vec2 dst, float width);
-    line(glm::vec2 src, glm::vec2 dst, float width, glm::vec4 color);
+    line(glm::vec3 src, glm::vec3 dst, float width, glm::vec4 color);
     line(const line & l);
 
     std::shared_ptr<component> copy() override;
 
-    glm::vec2 get_center() const override;
+    glm::vec3 get_center() override;
 
     float get_width();
 
@@ -21,7 +21,7 @@ public:
 
     static std::shared_ptr<shader> _shader;
 protected:
-    float width;
+    var<float> width;
 
     void calc_vertices() override;
     void calc_indices() override;

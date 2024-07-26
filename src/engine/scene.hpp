@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../common.hpp"
+#include "../animation/core.hpp"
 #include "../components/core.hpp"
 #include "graph/graph.hpp"
 #include "render/shader.hpp"
@@ -19,6 +20,8 @@ public:
     void move(glm::vec2 d);
     void zoom(bool in);
 
+    void hover(glm::vec2 pt);
+    void unhover();
     void select(glm::vec2 pt);
     void deselect();
     void drag(glm::vec2 d);
@@ -29,13 +32,14 @@ private:
     glm::vec2 size;
     float distance;
 
-    glm::vec2 pt_to_world(glm::vec2 pt);
-    glm::vec2 v_to_world(glm::vec2 v);
+    glm::vec2 screen_to_world_pt(glm::vec2 pt);
+    glm::vec2 screen_to_world_v(glm::vec2 v);
 
-    glm::vec2 pt_to_screen(glm::vec2 pt);
-    glm::vec2 v_to_screen(glm::vec2 v);
+    glm::vec2 world_to_screen_pt(glm::vec2 pt);
+    glm::vec2 world_to_screen_v(glm::vec2 v);
 
     std::shared_ptr<graph> g;
+    std::shared_ptr<item> hovered_object;
     std::shared_ptr<item> selected_object;
 
     void update_edges();

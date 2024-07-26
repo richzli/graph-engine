@@ -4,9 +4,7 @@
 node::node(
     int id,
     std::shared_ptr<data> value
-) : item(value) {
-    this->id = id;
-
+) : item(value), id(id) {
     this->component = std::static_pointer_cast<node_component>(
         _component_defaults._node->copy()
     );

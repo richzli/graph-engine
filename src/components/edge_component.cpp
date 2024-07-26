@@ -1,35 +1,27 @@
 #include "edge_component.hpp"
 
 edge_component::edge_component(
-    glm::vec2 src,
-    glm::vec2 dst,
+    glm::vec3 src,
+    glm::vec3 dst,
     glm::vec4 color
-) : component(color) {
-    this->src = src;
-    this->dst = dst;
-}
+) : component(color), src(src), dst(dst) { }
 
-edge_component::edge_component() : edge_component(ZERO2, ZERO2, BLACK) { }
+edge_component::edge_component() : edge_component(ZERO3, ZERO3, BLACK) { }
 
-edge_component::edge_component(const edge_component & ec) : component(ec) {
-    this->src = ec.src;
-    this->dst = ec.dst;
-}
+edge_component::edge_component(const edge_component & ec) : component(ec), src(ec.src), dst(ec.dst) { }
 
-glm::vec2 edge_component::get_src() const {
+glm::vec3 edge_component::get_src() {
     return src;
 }
 
-glm::vec2 edge_component::get_dst() const {
+glm::vec3 edge_component::get_dst() {
     return dst;
 }
 
-void edge_component::set_src(glm::vec2 src) {
+void edge_component::set_src(var<glm::vec3> src) {
     this->src = src;
-    this->update_vertices();
 }
 
-void edge_component::set_dst(glm::vec2 dst) {
+void edge_component::set_dst(var<glm::vec3> dst) {
     this->dst = dst;
-    this->update_vertices();
 }

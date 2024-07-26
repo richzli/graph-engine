@@ -10,7 +10,11 @@ app::app() {
     init_imgui();
 
     active_scene = std::make_shared<scene>();
+    last_frame_time = std::chrono::steady_clock::now();
     lmb_down_time = std::nullopt;
+    lmb_down_pos = std::nullopt;
+    rmb_down_time = std::nullopt;
+    rmb_down_pos = std::nullopt;
 }
 
 app::~app() {
@@ -41,6 +45,8 @@ void app::render() {
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    last_frame_time = std::chrono::steady_clock::now();
 }
 
 void app::init_opengl() {
@@ -118,11 +124,11 @@ void app::window_refresh_callback(GLFWwindow * window) {
 void app::cursor_position_callback(GLFWwindow * window, double xpos, double ypos) {
     glm::vec2 current_cursor_pos = glm::vec2(xpos, ypos);
 
-    if (get_instance().lmb_down_time != std::nullopt) {
-        get_instance().active_scene->drag(current_cursor_pos - get_instance().last_cursor_pos);
-    } else if (get_instance().rmb_down_time != std::nullopt) {
+    if (get_instance().rmb_down_time != std::nullopt) {
         get_instance().active_scene->move(current_cursor_pos - get_instance().last_cursor_pos);
-    }
+    } else if (get_instance().lmb_down_time != std::nullopt) {
+        get_instance().active_scene->drag(current_cursor_pos - get_instance().last_cursor_pos);
+    } 
 
     get_instance().last_cursor_pos = current_cursor_pos;
 }

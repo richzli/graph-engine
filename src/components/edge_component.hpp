@@ -5,14 +5,14 @@
 class edge_component : public component {
 public:
     edge_component();
-    edge_component(glm::vec2 src, glm::vec2 dst, glm::vec4 color);
+    edge_component(glm::vec3 src, glm::vec3 dst, glm::vec4 color);
     edge_component(const edge_component & ec);
 
-    glm::vec2 get_src() const;
-    glm::vec2 get_dst() const;
+    glm::vec3 get_src();
+    glm::vec3 get_dst();
 
-    void set_src(glm::vec2 src);
-    void set_dst(glm::vec2 dst);
+    void set_src(var<glm::vec3> src);
+    void set_dst(var<glm::vec3> dst);
 protected:
-    glm::vec2 src, dst;
+    var<glm::vec3> src, dst;
 };

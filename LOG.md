@@ -56,3 +56,13 @@ Along with the endpoint updating mentioned above, this allows us to spawn in a g
 I switched my MinGW to a 64-bit version. Also, `glad.c` is excluded from the .gitignore now, which will probably help with first-time setup.
 
 Also, (0, 0) is now the center of the screen, rather than the bottom left corner. Orientation stays unchanged.
+
+## Animation
+
+Okay, now we need some way to animate the things on-screen. Right now, the "animations" for clicking (changing the object's color) and dragging (changing the object's position) are basically hard-coded into the system. We'd like a way to make this more modular, especially since later on we want to make animations data-driven.
+
+Enter [`var`](src/animation/var.tpp) and [`anim`](src/animation/anim.tpp). `var` is a variable value, which emits values according to the attached `anim`ation. (I've tried to make the API as nice as possible, so that `var`s can be treated implicitly as values when assigning or doing calculations.) A default `var/anim` can be instantiated with a single value, representing a constant; however, much more complex behavior can be performed, like [`tween`](src/animation/tween.tpp)ing between two values, [`lerp`](src/animation/lerp.tpp) smoothing to a target, or just [`follow`](src/animation/follow.tpp)ing a function exactly, for example.
+
+Most of the code has been refactored to use `var`s now, although we still need an animation controller to handle higher-level state-based animation. That should also be the part that should be extremely customizable in the future, to support all different kinds of animation as one sees fit.
+
+One big issue I'm seeing right now, though, is what happens when we want multiple animations to take effect at the same time? How are we going to handle blending states together? What happens if multiple systems (e.g. user input vs. data-based states vs. physics engine) want to take control of the same variable at once? Are there ways to restore default values or complete states if something goes wrong? Many hard questions arise (which will be answered as I keep on implementing).

@@ -4,63 +4,52 @@ node_component::node_component(
     glm::vec3 position,
     glm::vec3 rotation,
     glm::vec3 scale,
+    glm::vec3 offset,
     glm::vec4 color
-) : component(color) {
-    this->position = position;
-    this->rotation = rotation;
-    this->scale = scale;
-
+) : component(color), position(position), rotation(rotation), scale(scale), offset(offset) {
     update_model_matrix();
 }
 
-node_component::node_component() : node_component(ZERO3, ZERO3, ONE3, BLACK) { }
+node_component::node_component() : node_component(ZERO3, ZERO3, ONE3, ZERO3, BLACK) { }
 
-node_component::node_component(const node_component & nc) : component(nc) {
-    this->position = nc.position;
-    this->rotation = nc.rotation;
-    this->scale = nc.scale;
+node_component::node_component(const node_component & nc) : component(nc), position(nc.position), rotation(nc.rotation), scale(nc.scale), offset(nc.offset), model(nc.model) { }
 
-    this->model = nc.model;
-}
-
-glm::vec3 node_component::get_position() const {
+glm::vec3 node_component::get_position() {
     return position;
 }
 
-glm::vec3 node_component::get_rotation() const {
+glm::vec3 node_component::get_rotation() {
     return rotation;
 }
 
-glm::vec3 node_component::get_scale() const {
+glm::vec3 node_component::get_scale() {
     return scale;
 }
 
-std::vector<glm::vec2> node_component::get_vertices() const {
+std::vector<glm::vec3> node_component::get_vertices() {
     return vertices;
 }
 
-glm::mat4 node_component::get_model_matrix() const {
+glm::mat4 node_component::get_model_matrix() {
+    update_model_matrix();
     return model;
 }
 
-void node_component::set_position(glm::vec3 position) {
+void node_component::set_position(var<glm::vec3> position) {
     this->position = position;
-    update_model_matrix();
 }
 
-void node_component::set_rotation(glm::vec3 rotation) {
+void node_component::set_rotation(var<glm::vec3> rotation) {
     this->rotation = rotation;
-    update_model_matrix();
 }
 
-void node_component::set_scale(glm::vec3 scale) {
+void node_component::set_scale(var<glm::vec3> scale) {
     this->scale = scale;
-    update_model_matrix();
 }
 
 void node_component::update_model_matrix() {
     model = glm::mat4(1.0f);
-    model = glm::translate(model, position);
-    model *= glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
-    model = glm::scale(model, scale);
+    model = glm::translate(model, position());
+    model *= glm::eulerAngleXYZ(rotation().x, rotation().y, rotation().z);
+    model = glm::scale(model, scale());
 }

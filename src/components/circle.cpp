@@ -5,21 +5,18 @@ circle::circle(
     float radius,
     glm::vec3 rotation,
     glm::vec3 scale,
+    glm::vec3 offset,
     glm::vec4 color
-) : node_component(position, rotation, scale, color) {
-    this->radius = radius;
-
+) : node_component(position, rotation, scale, offset, color), radius(radius) {
     init_buffers();
 }
 
 circle::circle(
     glm::vec2 pos,
     float radius
-) : circle(glm::vec3(pos, 0.0f), radius, ZERO3, ONE3, BLACK) { }
+) : circle(glm::vec3(pos, 0.0f), radius, ZERO3, ONE3, ZERO3, BLACK) { }
 
-circle::circle(const circle & c) : node_component(c) {
-    this->radius = c.radius;
-
+circle::circle(const circle & c) : node_component(c), radius(c.radius) {
     init_buffers();
 }
 
@@ -27,21 +24,27 @@ std::shared_ptr<component> circle::copy() {
     return std::make_shared<circle>(*this);
 }
 
-glm::vec2 circle::get_center() const {
+glm::vec3 circle::get_center() {
     return this->get_position();
 }
 
-float circle::get_radius() const {
+glm::vec3 circle::get_border(glm::vec3 direction) {
+    if (direction == ZERO3) {
+        return this->get_position();
+    }
+    return this->get_position() + glm::normalize(direction) * (this->radius - 3.0f);
+}
+
+float circle::get_radius() {
     return radius;
 }
 
 void circle::set_radius(float radius) {
     this->radius = radius;
-    this->update_vertices();
 }
 
 bool circle::hit(glm::vec2 pt) {
-    return glm::length2(glm::vec2(position) - pt) <= radius * radius;
+    return glm::length2(get_position() - glm::vec3(pt, 0.0f)) <= radius * radius;
 }
 
 void circle::drag(glm::vec2 d) {
@@ -50,10 +53,10 @@ void circle::drag(glm::vec2 d) {
 
 void circle::calc_vertices() {
     vertices = {
-        {-this->radius, -this->radius},
-        { this->radius, -this->radius},
-        { this->radius,  this->radius},
-        {-this->radius,  this->radius},
+        {-this->radius, -this->radius, 0.0f},
+        { this->radius, -this->radius, 0.0f},
+        { this->radius,  this->radius, 0.0f},
+        {-this->radius,  this->radius, 0.0f},
     };
 }
 

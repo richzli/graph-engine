@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../common.hpp"
+#include "../../animation/follow.hpp"
 #include "../../components/edge_component.hpp"
 #include "item.hpp"
 

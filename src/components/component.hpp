@@ -3,6 +3,7 @@
 #include "../common.hpp"
 #include "../settings.hpp"
 #include "../engine/render/shader.hpp"
+#include "../animation/var.hpp"
 
 class component {
 public:
@@ -13,21 +14,22 @@ public:
 
     virtual std::shared_ptr<component> copy() = 0;
 
-    virtual glm::vec2 get_center() const = 0;
+    virtual glm::vec3 get_center() = 0;
 
-    glm::vec4 get_color() const;
-    void set_color(glm::vec4 color);
+    glm::vec4 get_color();
+    void set_color(var<glm::vec4> color);
 
     virtual bool hit(glm::vec2 pt) = 0;
     virtual void drag(glm::vec2 d) = 0;
 
     void draw(const glm::mat4 & view, const glm::mat4 & projection);
 protected:
+    var<glm::vec4> color;
+
     unsigned int VAO, VBO, EBO;
     /* vertices in counter-clockwise order */
-    std::vector<glm::vec2> vertices;
+    std::vector<glm::vec3> vertices;
     std::vector<unsigned int> indices;
-    glm::vec4 color;
 
     void create_buffers();
     void init_buffers();
