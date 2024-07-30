@@ -2,6 +2,7 @@
 docs/*
 
 *.o
+*.d
 
 app
 app.exe

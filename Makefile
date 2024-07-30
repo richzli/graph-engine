@@ -10,7 +10,8 @@ endif
 # Sources and output
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 SRCS = $(call rwildcard,src,*.cpp *.c)
-OBJS = $(patsubst %.c,%.o,$(SRCS:.cpp=.o))
+OBJS = $(patsubst %.cpp,%.o,$(SRCS:.c=.o))
+DEPS = $(patsubst %.cpp,%.d,$(SRCS:.c=.d))
 ifeq ($(OS),Windows_NT)
 	EXEC = app.exe
 else
@@ -18,17 +19,21 @@ else
 endif
 
 # Compilation rules
+.PHONY: all clean
+
 all: $(EXEC)
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+-include $(DEPS)
+
+%.o: %.cpp Makefile
+	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@
 
 %.o: %.c
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@
 # Surely using g++ to compile C code can't go wrong
 
 $(EXEC): $(OBJS)
 	$(CXX) $(OBJS) $(LDFLAGS) -o $@
 
 clean:
-	rm -f $(OBJS) $(EXEC)
+	rm -f $(OBJS) $(EXEC) $(DEPS)
