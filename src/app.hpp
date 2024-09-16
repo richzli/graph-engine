@@ -23,12 +23,13 @@ private:
 
     std::shared_ptr<scene> active_scene;
 
-    std::chrono::time_point<std::chrono::steady_clock> last_frame_time;
+    time_pt last_frame_time;
 
+    time_pt last_mouse_move_time;
     glm::vec2 last_cursor_pos;
-    std::optional<std::chrono::time_point<std::chrono::steady_clock>> lmb_down_time;
+    std::optional<time_pt> lmb_down_time;
     std::optional<glm::vec2> lmb_down_pos;
-    std::optional<std::chrono::time_point<std::chrono::steady_clock>> rmb_down_time;
+    std::optional<time_pt> rmb_down_time;
     std::optional<glm::vec2> rmb_down_pos;
 
     void init_opengl();

@@ -10,18 +10,18 @@ edge_component::edge_component() : edge_component(ZERO3, ZERO3, BLACK) { }
 
 edge_component::edge_component(const edge_component & ec) : component(ec), src(ec.src), dst(ec.dst) { }
 
-glm::vec3 edge_component::get_src() {
-    return src;
-}
+void edge_component::apply(std::shared_ptr<edge_component> animation) {
+    this->component::apply(animation);
 
-glm::vec3 edge_component::get_dst() {
-    return dst;
-}
+    for (int chan : animation->src.get_channels()) {
+        if (animation->src[chan]->active) {
+            this->src[chan] = animation->src[chan]->copy();
+        }
+    }
 
-void edge_component::set_src(var<glm::vec3> src) {
-    this->src = src;
-}
-
-void edge_component::set_dst(var<glm::vec3> dst) {
-    this->dst = dst;
+    for (int chan : animation->dst.get_channels()) {
+        if (animation->dst[chan]->active) {
+            this->dst[chan] = animation->dst[chan]->copy();
+        }
+    }
 }

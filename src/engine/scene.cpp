@@ -53,49 +53,63 @@ void scene::hover(glm::vec2 pt) {
     if (hovered_object != nullptr) {
         if (!hovered_object->get_component()->hit(screen_to_world_pt(pt))) {
             unhover();
+        } else {
+            return;
         }
     }
 
-    for (auto & [i, v] : this->g->get_nodes()) {
-        std::shared_ptr<component> obj = v->get_component();
-        if (obj->hit(screen_to_world_pt(pt))) {
-            hovered_object = v;
-            return;
-        }
+    std::shared_ptr<node> v = select_node_at(pt);
+    if (v != nullptr) {
+        std::static_pointer_cast<node_component>(v->get_component())->apply(_animation_defaults.node_on_hover);
+        hovered_object = v;
+        return;
     }
-    for (auto & [i, e] : this->g->get_edges()) {
-        std::shared_ptr<component> obj = e->get_component();
-        if (obj->hit(screen_to_world_pt(pt))) {
-            hovered_object = e;
-            return;
-        }
+    
+    std::shared_ptr<edge> e = select_edge_at(pt);
+    if (e != nullptr) {
+        // std::static_pointer_cast<edge_component>(e->get_component())->apply(_animation_defaults.edge_on_hover);
+        hovered_object = e;
+        return;
     }
     
     unhover();
 }
 
 void scene::unhover() {
+    if (hovered_object != nullptr) {
+        std::shared_ptr<node_component> v = std::dynamic_pointer_cast<node_component>(hovered_object->get_component());
+        if (v != nullptr) {
+            v->apply(_animation_defaults.node_on_unhover);
+            hovered_object = nullptr;
+            return;
+        }
+
+        std::shared_ptr<edge_component> e = std::dynamic_pointer_cast<edge_component>(hovered_object->get_component());
+        if (e != nullptr) {
+            // e->apply(_animation_defaults.edge_on_unhover);
+            hovered_object = nullptr;
+            return;
+        }
+    }
+
     hovered_object = nullptr;
 }
 
 void scene::select(glm::vec2 pt) {
-    for (auto & [i, v] : this->g->get_nodes()) {
-        std::shared_ptr<component> obj = v->get_component();
-        if (obj->hit(screen_to_world_pt(pt))) {
-            obj->set_color(RED);
-            selected_object = v;
-            selected_object->select();
-            return;
-        }
+    std::shared_ptr<node> v = select_node_at(pt);
+    if (v != nullptr) {
+        v->get_component()->color = RED;
+        selected_object = v;
+        selected_object->select();
+        return;
     }
-    for (auto & [i, e] : this->g->get_edges()) {
-        std::shared_ptr<component> obj = e->get_component();
-        if (obj->hit(screen_to_world_pt(pt))) {
-            obj->set_color(RED);
-            selected_object = e;
-            selected_object->select();
-            return;
-        }
+    
+    std::shared_ptr<edge> e = select_edge_at(pt);
+    if (e != nullptr) {
+        e->get_component()->color = RED;
+        selected_object = e;
+        selected_object->select();
+        return;
     }
     
     deselect();
@@ -103,10 +117,14 @@ void scene::select(glm::vec2 pt) {
 
 void scene::deselect() {
     if (selected_object != nullptr) {
-        selected_object->get_component()->set_color(BLACK);
+        selected_object->get_component()->color = BLACK;
         selected_object->deselect();
     }
     selected_object = nullptr;
+}
+
+void scene::click() {
+
 }
 
 /*
@@ -114,9 +132,9 @@ void scene::deselect() {
  *
  * @param d The drag distance in screen coordinates.
  */
-void scene::drag(glm::vec2 d) {
+void scene::drag(glm::vec2 v) {
     if (selected_object != nullptr) {
-        selected_object->get_component()->drag(screen_to_world_v(d));
+        selected_object->get_component()->drag(screen_to_world_v(v));
     }
 }
 
@@ -186,6 +204,26 @@ glm::vec2 scene::world_to_screen_pt(glm::vec2 pt) {
  */
 glm::vec2 scene::world_to_screen_v(glm::vec2 v) {
     return glm::vec2(1.0f, -1.0f) * distance * v;
+}
+
+std::shared_ptr<node> scene::select_node_at(glm::vec2 pt) {
+    for (auto & [i, v] : this->g->get_nodes()) {
+        std::shared_ptr<component> obj = v->get_component();
+        if (obj->hit(screen_to_world_pt(pt))) {
+            return v;
+        }
+    }
+    return nullptr;
+}
+
+std::shared_ptr<edge> scene::select_edge_at(glm::vec2 pt) {
+    for (auto & [i, e] : this->g->get_edges()) {
+        std::shared_ptr<component> obj = e->get_component();
+        if (obj->hit(screen_to_world_pt(pt))) {
+            return e;
+        }
+    }
+    return nullptr;
 }
 
 void scene::update_edges() {

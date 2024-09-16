@@ -6,20 +6,23 @@
 template <class T>
 class var {
 public:
-    var(T val) : var(std::make_shared<anim<T>>(val), {}) { }
+    var(T val);
     var(std::shared_ptr<anim<T>> ani);
-    var(std::shared_ptr<anim<T>> ani, std::chrono::time_point<std::chrono::steady_clock> start);
+
+    var & operator=(const T & val);
 
     operator T();
-    virtual T operator()(double t);
-    T operator()(std::chrono::time_point<std::chrono::steady_clock> time);
+    T operator()(double t);
     T operator()();
 
-    void set_anim(std::shared_ptr<anim<T>> ani, std::chrono::time_point<std::chrono::steady_clock> start);
+    std::shared_ptr<anim<T>> & operator[](int i);
+    bool has(int i);
+
+    std::vector<int> get_channels();
+
     void set_anim(std::shared_ptr<anim<T>> ani);
 private:
-    std::shared_ptr<anim<T>> ani;
-    std::chrono::time_point<std::chrono::steady_clock> start;
+    std::map<int, std::shared_ptr<anim<T>>> anis;
 };
 
 #include "var.tpp"

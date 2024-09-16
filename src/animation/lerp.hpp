@@ -8,7 +8,9 @@ class lerp : public anim<T> {
 public:
     lerp(T val, std::function<T(double)> target, double speed);
 
-    T get(double t) override;
+    std::shared_ptr<anim<T>> copy() override;
+
+    T at(double t) override;
 protected:
     double speed;
     double last_eval;

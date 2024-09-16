@@ -24,39 +24,42 @@ std::shared_ptr<component> line::copy() {
 }
 
 glm::vec3 line::get_center() {
-    return (get_src() + get_dst()) / 2.0f;
-}
-
-float line::get_width() {
-    return width;
-}
-
-void line::set_width(float width) {
-    this->width = width;
+    return (src() + dst()) / 2.0f;
 }
 
 bool line::hit(glm::vec2 pt) {
     glm::vec3 p(pt, 0.0f);
-    float d = glm::length2(get_dst() - get_src());
-    float t = std::min(d, std::max(0.0f, glm::dot(p - get_src(), get_dst() - get_src())));
-    return glm::length((p - get_src()) * d - (get_dst() - get_src()) * t) / d <= get_width();
+    float d = glm::length2(dst() - src());
+    float t = std::min(d, std::max(0.0f, glm::dot(p - src(), dst() - src())));
+    return glm::length((p - src()) * d - (dst() - src()) * t) / d <= width();
 }
 
 void line::drag(glm::vec2 d) {
-    // this->set_src(this->get_src() + d);
-    // this->set_dst(this->get_dst() + d);
+    // this->set_src(this->src() + d);
+    // this->set_dst(this->dst() + d);
 }
 
+void line::apply(std::shared_ptr<line> animation) {
+    this->edge_component::apply(animation);
+
+    for (int chan : animation->width.get_channels()) {
+        if (animation->width[chan]->active) {
+            this->width[chan] = animation->width[chan]->copy();
+        }
+    }
+}
+
+
 void line::calc_vertices() {
-    float dist = glm::length(get_dst() - get_src());
-    glm::vec3 v = glm::normalize(get_dst() - get_src());
+    float dist = glm::length(dst() - src());
+    glm::vec3 v = glm::normalize(dst() - src());
     if (dist == 0) v = ZERO3;
     glm::vec3 perp(v.y, -v.x, 0.0f);
     vertices = {
-        get_src() + perp * (get_width() / 2), 
-        get_src() - perp * (get_width() / 2),
-        get_dst() - perp * (get_width() / 2),
-        get_dst() + perp * (get_width() / 2),
+        src() + perp * (width() / 2), 
+        src() - perp * (width() / 2),
+        dst() - perp * (width() / 2),
+        dst() + perp * (width() / 2),
     };
 }
 

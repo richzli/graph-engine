@@ -12,16 +12,15 @@ public:
 
     glm::vec3 get_center() override;
 
-    float get_width();
-
-    void set_width(float width);
-
     bool hit(glm::vec2 pt) override;
     void drag(glm::vec2 d) override;
 
+    var<float> width;
+
+    void apply(std::shared_ptr<line> animation);
+
     static std::shared_ptr<shader> _shader;
 protected:
-    var<float> width;
 
     void calc_vertices() override;
     void calc_indices() override;

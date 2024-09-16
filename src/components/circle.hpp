@@ -20,6 +20,8 @@ public:
     bool hit(glm::vec2 pt) override;
     void drag(glm::vec2 d) override;
 
+    void apply(std::shared_ptr<circle> animation);
+
     static std::shared_ptr<shader> _shader;
 protected:
     var<float> radius;

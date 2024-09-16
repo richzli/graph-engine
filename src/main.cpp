@@ -4,6 +4,7 @@
 
 config _config;
 component_defaults _component_defaults;
+animation_defaults _animation_defaults;
 app * _app;
 
 int main(int argc, char * argv[]) {

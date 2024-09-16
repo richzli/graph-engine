@@ -14,18 +14,6 @@ node_component::node_component() : node_component(ZERO3, ZERO3, ONE3, ZERO3, BLA
 
 node_component::node_component(const node_component & nc) : component(nc), position(nc.position), rotation(nc.rotation), scale(nc.scale), offset(nc.offset), model(nc.model) { }
 
-glm::vec3 node_component::get_position() {
-    return position;
-}
-
-glm::vec3 node_component::get_rotation() {
-    return rotation;
-}
-
-glm::vec3 node_component::get_scale() {
-    return scale;
-}
-
 std::vector<glm::vec3> node_component::get_vertices() {
     return vertices;
 }
@@ -35,16 +23,32 @@ glm::mat4 node_component::get_model_matrix() {
     return model;
 }
 
-void node_component::set_position(var<glm::vec3> position) {
-    this->position = position;
-}
+void node_component::apply(std::shared_ptr<node_component> animation) {
+    this->component::apply(animation);
 
-void node_component::set_rotation(var<glm::vec3> rotation) {
-    this->rotation = rotation;
-}
+    for (int chan : animation->position.get_channels()) {
+        if (animation->position[chan]->active) {
+            this->position[chan] = animation->position[chan]->copy();
+        }
+    }
 
-void node_component::set_scale(var<glm::vec3> scale) {
-    this->scale = scale;
+    for (int chan : animation->rotation.get_channels()) {
+        if (animation->rotation[chan]->active) {
+            this->rotation[chan] = animation->rotation[chan]->copy();
+        }
+    }
+
+    for (int chan : animation->scale.get_channels()) {
+        if (animation->scale[chan]->active) {
+            this->scale[chan] = animation->scale[chan]->copy();
+        }
+    }
+
+    for (int chan : animation->offset.get_channels()) {
+        if (animation->offset[chan]->active) {
+            this->offset[chan] = animation->offset[chan]->copy();
+        }
+    }
 }
 
 void node_component::update_model_matrix() {

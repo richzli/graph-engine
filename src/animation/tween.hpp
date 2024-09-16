@@ -8,7 +8,9 @@ class tween : public anim<T> {
 public:
     tween(std::function<T(double)> path, std::function<double(double)> easing_fn, double duration);
 
-    T get(double t) override;
+    std::shared_ptr<anim<T>> copy() override;
+
+    T at(double t) override;
 protected:
     std::function<T(double)> path;
     std::function<double(double)> easing_fn;

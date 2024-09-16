@@ -1,10 +1,18 @@
 #include "var.hpp"
 
 template <class T>
-var<T>::var(std::shared_ptr<anim<T>> ani) : var(ani, std::chrono::steady_clock::now()) { }
+var<T>::var(T val) : var(std::make_shared<anim<T>>(val)) { }
 
 template <class T>
-var<T>::var(std::shared_ptr<anim<T>> ani, std::chrono::time_point<std::chrono::steady_clock> start) : ani(ani), start(start) { }
+var<T>::var(std::shared_ptr<anim<T>> ani) : anis({}) {
+    this->set_anim(ani);
+}
+
+template<typename T>
+var<T> & var<T>::operator=(const T & val) {
+    this->anis[BASE] = std::make_shared<anim<T>>(val);
+    return *this;
+}
 
 template <typename T>
 var<T>::operator T() {
@@ -13,26 +21,35 @@ var<T>::operator T() {
 
 template <typename T>
 T var<T>::operator()(double time) {
-    return this->ani->get(time);
-}
-
-template <typename T>
-T var<T>::operator()(std::chrono::time_point<std::chrono::steady_clock> time) {
-    return this->operator()(std::chrono::duration<double>(time - this->start).count());
+    return this->anis[BASE]->at(time);
 }
 
 template <typename T>
 T var<T>::operator()() {
-    return this->operator()(std::chrono::steady_clock::now());
+    return this->anis[BASE]->at(std::chrono::steady_clock::now());
 }
 
 template <typename T>
-void var<T>::set_anim(std::shared_ptr<anim<T>> ani, std::chrono::time_point<std::chrono::steady_clock> start) {
-    this->ani = ani;
-    this->start = start;
+std::shared_ptr<anim<T>> & var<T>::operator[](int i) {
+    return this->anis[i];
+}
+
+template <typename T>
+bool var<T>::has(int i) {
+    return this->anis.count(i) != 0;
+}
+
+template <typename T>
+std::vector<int> var<T>::get_channels() {
+    std::vector<int> channels;
+    for (auto & [i, _] : anis) {
+        channels.push_back(i);
+    }
+    return channels;
 }
 
 template <typename T>
 void var<T>::set_anim(std::shared_ptr<anim<T>> ani) {
-    this->set_anim(ani, std::chrono::steady_clock::now());
+    this->anis.clear();
+    this->anis[BASE] = ani;
 }

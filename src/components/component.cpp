@@ -14,12 +14,12 @@ component::~component() {
     this->delete_buffers();
 }
 
-glm::vec4 component::get_color() {
-    return color;
-}
-
-void component::set_color(var<glm::vec4> color) {
-    this->color = color;
+void component::apply(std::shared_ptr<component> animation) {
+    for (int chan : animation->color.get_channels()) {
+        if (animation->color[chan]->active) {
+            this->color[chan] = animation->color[chan]->copy();
+        }
+    }
 }
 
 void component::draw(const glm::mat4 & view, const glm::mat4 & projection) {

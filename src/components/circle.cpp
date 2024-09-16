@@ -25,14 +25,14 @@ std::shared_ptr<component> circle::copy() {
 }
 
 glm::vec3 circle::get_center() {
-    return this->get_position();
+    return this->position();
 }
 
 glm::vec3 circle::get_border(glm::vec3 direction) {
     if (direction == ZERO3) {
-        return this->get_position();
+        return this->position();
     }
-    return this->get_position() + glm::normalize(direction) * (this->radius - 3.0f);
+    return this->position() + glm::normalize(direction) * (this->radius - 3.0f);
 }
 
 float circle::get_radius() {
@@ -44,11 +44,21 @@ void circle::set_radius(float radius) {
 }
 
 bool circle::hit(glm::vec2 pt) {
-    return glm::length2(get_position() - glm::vec3(pt, 0.0f)) <= radius * radius;
+    return glm::length2(position() - glm::vec3(pt, 0.0f)) <= radius * radius;
 }
 
 void circle::drag(glm::vec2 d) {
-    this->set_position(this->get_position() + glm::vec3(d, 0.0f));
+    this->position = this->position() + glm::vec3(d, 0.0f);
+}
+
+void circle::apply(std::shared_ptr<circle> animation) {
+    this->node_component::apply(animation);
+
+    for (int chan : animation->radius.get_channels()) {
+        if (animation->radius[chan]->active) {
+            this->radius[chan] = animation->radius[chan]->copy();
+        }
+    }
 }
 
 void circle::calc_vertices() {

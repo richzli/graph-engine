@@ -32,6 +32,8 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_stdlib.h"
 
+typedef std::chrono::time_point<std::chrono::steady_clock> time_pt;
+
 #define ZERO2   glm::vec2( 0.0f,  0.0f)
 #define ZERO3   glm::vec3( 0.0f,  0.0f,  0.0f)
 #define ONE3    glm::vec3( 1.0f,  1.0f,  1.0f)
@@ -46,3 +48,6 @@
 #define BLACK   glm::vec4(0.00f, 0.00f, 0.00f, 1.00f)
 #define RED     glm::vec4(1.00f, 0.00f, 0.00f, 1.00f)
 #define WHITE   glm::vec4(1.00f, 1.00f, 1.00f, 1.00f)
+
+#define BASE    0
+#define OVERLAY 1

@@ -80,6 +80,7 @@ void app::init_opengl() {
 
     ::init_shaders();
     ::init_component_defaults();
+    ::init_animation_defaults();
 
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -128,8 +129,11 @@ void app::cursor_position_callback(GLFWwindow * window, double xpos, double ypos
         get_instance().active_scene->move(current_cursor_pos - get_instance().last_cursor_pos);
     } else if (get_instance().lmb_down_time != std::nullopt) {
         get_instance().active_scene->drag(current_cursor_pos - get_instance().last_cursor_pos);
-    } 
+    } else {
+        get_instance().active_scene->hover(current_cursor_pos);
+    }
 
+    get_instance().last_mouse_move_time = std::chrono::steady_clock::now();
     get_instance().last_cursor_pos = current_cursor_pos;
 }
 

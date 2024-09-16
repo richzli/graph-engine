@@ -7,6 +7,6 @@
 #include "anim.hpp"
 #include "tween.hpp"
 #include "lerp.hpp"
-#include "follow.hpp"
+#include "func.hpp"
 
 #include "easing.hpp"

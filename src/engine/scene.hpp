@@ -24,7 +24,8 @@ public:
     void unhover();
     void select(glm::vec2 pt);
     void deselect();
-    void drag(glm::vec2 d);
+    void click();
+    void drag(glm::vec2 v);
 
     void draw();
 private:
@@ -41,6 +42,9 @@ private:
     std::shared_ptr<graph> g;
     std::shared_ptr<item> hovered_object;
     std::shared_ptr<item> selected_object;
+
+    std::shared_ptr<node> select_node_at(glm::vec2 pt);
+    std::shared_ptr<edge> select_edge_at(glm::vec2 pt);
 
     void update_edges();
 

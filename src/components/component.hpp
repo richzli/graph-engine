@@ -16,16 +16,14 @@ public:
 
     virtual glm::vec3 get_center() = 0;
 
-    glm::vec4 get_color();
-    void set_color(var<glm::vec4> color);
-
     virtual bool hit(glm::vec2 pt) = 0;
     virtual void drag(glm::vec2 d) = 0;
 
+    void apply(std::shared_ptr<component> animation);
     void draw(const glm::mat4 & view, const glm::mat4 & projection);
-protected:
-    var<glm::vec4> color;
 
+    var<glm::vec4> color;
+protected:
     unsigned int VAO, VBO, EBO;
     /* vertices in counter-clockwise order */
     std::vector<glm::vec3> vertices;

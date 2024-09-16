@@ -8,6 +8,9 @@ uniform vec2 center;
 uniform float radius;
 uniform vec4 color;
 
+uniform bool has_input_color;
+uniform vec4 input_color;
+
 float circle(in vec2 _center, in float _radius, in vec2 xy)
 {
     vec2 d = xy - _center;

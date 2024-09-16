@@ -20,3 +20,13 @@ struct component_defaults {
 };
 
 extern component_defaults _component_defaults;
+
+struct animation_defaults {
+    std::shared_ptr<node_component> node_on_hover;
+    std::shared_ptr<node_component> node_on_unhover;
+    std::shared_ptr<node_component> node_on_select;
+    std::shared_ptr<node_component> node_on_deselect;
+    std::shared_ptr<node_component> node_on_click;
+};
+
+extern animation_defaults _animation_defaults;
